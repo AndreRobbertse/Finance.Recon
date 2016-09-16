@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{027AA0DA-A367-4F33-BB98-D7E715ED886F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Recon.Process</RootNamespace>
+    <AssemblyName>Recon.Process</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Analyse\AnalyseData.cs" />
+    <Compile Include="Files\ProcessFiles.cs" />
+    <Compile Include="Lookup.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReconsType.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Recon.Core\Recon.Core.csproj">
+      <Project>{fa18b445-c603-4427-8e16-120f50c5cb31}</Project>
+      <Name>Recon.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Recon.Excel\Recon.Excel.csproj">
+      <Project>{93e4f15e-61f0-4352-aa20-7497c5a1e3ee}</Project>
+      <Name>Recon.Excel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Recon.File\Recon.File.csproj">
+      <Project>{D6E5D0DD-F790-4B53-8659-1E5ACC7BAC8B}</Project>
+      <Name>Recon.File</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Recon.Interface\Recon.Interface.csproj">
+      <Project>{b5de5af4-96e4-404d-b2ab-8730b77935b5}</Project>
+      <Name>Recon.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Recon.Model\Recon.Model.csproj">
+      <Project>{161E2F8A-92F8-4ECE-B151-C6737A2149EC}</Project>
+      <Name>Recon.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Recon.Shared\Recon.Shared.csproj">
+      <Project>{9457687f-93d0-4995-8d5a-cec8580daa70}</Project>
+      <Name>Recon.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
