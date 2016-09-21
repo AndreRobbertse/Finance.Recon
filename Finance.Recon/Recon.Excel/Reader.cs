@@ -5,6 +5,7 @@ using System.IO;
 using Excel;
 using Recon.File;
 using Recon.Interface;
+using Recon.Model;
 
 namespace Recon.Excel
 {
@@ -20,7 +21,7 @@ namespace Recon.Excel
             {
                 if (_fromRecon == null && _fromFile != null)
                 {
-                    _fromRecon = Process(_fromFile);
+                    _fromRecon = Process(_fromFile, new ReconFrom());
                 }
                 return _fromRecon;
             }
@@ -33,7 +34,7 @@ namespace Recon.Excel
             {
                 if (_toRecon == null && _toFile != null)
                 {
-                    _toRecon = Process(_toFile);
+                    _toRecon = Process(_toFile, new ReconTo());
                 }
                 return _toRecon;
             }
@@ -45,7 +46,7 @@ namespace Recon.Excel
             _toFile = toFile;
         }
 
-        private IList<IRecon> Process(IReconFile file)
+        private IList<IRecon> Process<T>(IReconFile file, T t) where T : IRecon
         {
             IList<IRecon> result = new List<IRecon>();
             IExcelDataReader excelReader = null;
@@ -80,8 +81,9 @@ namespace Recon.Excel
                                 if (!string.IsNullOrEmpty(columnIdValue) && !string.IsNullOrEmpty(columnValueString))
                                 {
                                     decimal columnValue = columnValueString.ToDecimal();
-                                    IRecon reconRow = new Model.Recon(columnIdValue, columnValue);
-                                    result.Add(reconRow);
+                                    t.Id = columnIdValue;
+                                    t.Amount = columnValue;
+                                    result.Add(t);
                                 }
                             }
                         }

@@ -1,7 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Common;
+using System.Data.Entity;
 using System.Data.SQLite;
+using System.Diagnostics;
 using System.IO;
+using Recon.Core.Contexts;
+using Recon.Core.Factory;
+using Recon.Core.Initializer;
+using Recon.Interface;
+using Recon.Model;
 
 namespace Recon.Core
 {
@@ -9,12 +17,22 @@ namespace Recon.Core
     {
         public Setup()
         {
-            Console.WriteLine("Check DB: {0}", Util.DbPath);
-            if (!File.Exists(Util.DbPath))
-            {
-                createDatabase();
-            }
-            isValidSqliteConnectionString();
+            //Console.WriteLine("Check DB: {0}", Util.DbPath);
+            //if (!File.Exists(Util.DbPath))
+            //{
+            //    createDatabase();
+            //}
+
+            (new ReconContext()).Initialize();
+
+            //var context = new ReconContextInitializer();
+
+            //if (Debugger.IsAttached)
+            //{
+            //    isValidSqliteConnectionString();
+            //}
+
+            //Database.DefaultConnectionFactory = new SqLiteConnectionFactory(Util.DbPath, Util.SqliteConnectionString);
         }
 
         private void createDatabase()
@@ -53,12 +71,33 @@ namespace Recon.Core
                 {
                     var ret = command.ExecuteScalar();
                 }
+                dbconnection.Close();
+                dbconnection.Dispose();
+
                 return true;
             }
             catch (SQLiteException e)
             {
                 Console.WriteLine(e.Message);
                 return false;
+            }
+        }
+
+        public void InitData(IEnumerable<IRecon> fromRecons, IEnumerable<IRecon> toRecons)
+        {
+            using (ReconContext context = new ReconContext())
+            {
+                foreach (var fromR in fromRecons)
+                {
+                    context.ReconFroms.Add((ReconFrom)fromR);
+                }
+
+                foreach (var toR in toRecons)
+                {
+                    context.ReconTos.Add((ReconTo)toR);
+                }
+
+                context.SaveChanges();
             }
         }
     }

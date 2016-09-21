@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.IO;
 using System.Windows.Forms;
 
@@ -19,7 +20,12 @@ namespace Recon.Core
             {
                 if (_connectionString == string.Empty)
                 {
-                    _connectionString = $"DataSource={DbPath}";
+                    var csb = new SQLiteConnectionStringBuilder { DataSource = Util.DbPath };
+                    var dbconnection = new SQLiteConnection(csb.ConnectionString + ";Integrated Security=True;Persist Security Info=True;Initial Catalog=Recons");
+                    
+                    // create a new database connection:
+                    //sqlite_conn = new SQLiteConnection("Data Source=database.db;Version=3;New=True;Compress=True;");
+                    _connectionString = dbconnection.ConnectionString;
                 }
                 return _connectionString;
             }
@@ -39,6 +45,11 @@ namespace Recon.Core
             };
             Console.WriteLine(builder.ConnectionString);
             return builder.ConnectionString;
+        }
+
+        public static void CreateDatabase()
+        {
+            SQLiteConnection.CreateFile(Util.DbPath);
         }
     }
 }

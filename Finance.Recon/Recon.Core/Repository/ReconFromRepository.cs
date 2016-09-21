@@ -12,7 +12,7 @@ namespace Recon.Core.Repository
             _context = new ReconContext();
         }
 
-        public List<Model.Recon> Get()
+        public List<Model.ReconFrom> Get()
         {
             return _context.ReconFroms.ToList();
         }

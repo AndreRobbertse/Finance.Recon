@@ -2,13 +2,13 @@
 
 namespace Recon.Model
 {
-    public class Recon : IRecon
+    public class ReconFrom : IRecon
     {
-        public Recon()
+        public ReconFrom()
         {
         }
 
-        public Recon(string id, decimal amount)
+        public ReconFrom(string id, decimal amount)
         {
             Id = id;
             Amount = amount;
