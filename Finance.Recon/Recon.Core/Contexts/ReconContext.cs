@@ -31,7 +31,7 @@ namespace Recon.Core.Contexts
             //Database.SetInitializer(sqliteConnectionInitializer);
 
             ReconContextInitializer initializer = new ReconContextInitializer(modelBuilder);
-            initializer.SetData();
+            //initializer.SetData();
             Database.SetInitializer(initializer);
 
             var model = modelBuilder.Build(Database.Connection);
