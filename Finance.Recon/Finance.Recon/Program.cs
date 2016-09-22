@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 using Recon.Process.Files;
 
@@ -16,10 +15,11 @@ namespace Finance.Recon
             };
 
             Console.WriteLine("Press ESC to Exit");
+            Console.WriteLine(Environment.NewLine);
 
             var taskKeys = new Task(ReadKeys);
-            var taskProcessFiles = new Task(ProcessImportFiles);
 
+            var taskProcessFiles = new Task(ProcessImportFiles);
             taskKeys.Start();
 
             taskProcessFiles.ContinueWith(FilesProcessedComplete);

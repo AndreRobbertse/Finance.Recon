@@ -1,4 +1,5 @@
-﻿using Recon.Interface;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Recon.Interface;
 
 namespace Recon.Model
 {
@@ -8,13 +9,15 @@ namespace Recon.Model
         {
         }
 
-        public ReconFrom(string id, decimal amount)
+        public ReconFrom(string reference, decimal amount)
         {
-            Id = id;
+            Reference = reference;
             Amount = amount;
         }
 
-        public string Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
+        public string Reference { get; set; }
         public decimal Amount { get; set; }
     }
 }

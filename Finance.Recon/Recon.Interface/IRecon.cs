@@ -2,7 +2,8 @@
 {
     public interface IRecon
     {
-        string Id { get; set; }
+        long Id { get; set; }
+        string Reference { get; set; }
         // Decimals for money - Always
         decimal Amount { get; set; }
     }

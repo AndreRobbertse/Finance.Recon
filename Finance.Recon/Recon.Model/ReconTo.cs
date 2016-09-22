@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using Recon.Interface;
 
 namespace Recon.Model
@@ -13,13 +9,15 @@ namespace Recon.Model
         {
         }
 
-        public ReconTo(string id, decimal amount)
+        public ReconTo(string reference, decimal amount)
         {
-            Id = id;
+            Reference = reference;
             Amount = amount;
         }
 
-        public string Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
+        public string Reference { get; set; }
         public decimal Amount { get; set; }
     }
 }

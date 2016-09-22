@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using Excel;
+using Recon.Core;
 using Recon.File;
 using Recon.Interface;
 using Recon.Model;
@@ -21,7 +22,7 @@ namespace Recon.Excel
             {
                 if (_fromRecon == null && _fromFile != null)
                 {
-                    _fromRecon = Process(_fromFile, new ReconFrom());
+                    _fromRecon = Process(_fromFile, ReconType.From);
                 }
                 return _fromRecon;
             }
@@ -34,7 +35,7 @@ namespace Recon.Excel
             {
                 if (_toRecon == null && _toFile != null)
                 {
-                    _toRecon = Process(_toFile, new ReconTo());
+                    _toRecon = Process(_toFile, ReconType.To);
                 }
                 return _toRecon;
             }
@@ -46,7 +47,7 @@ namespace Recon.Excel
             _toFile = toFile;
         }
 
-        private IList<IRecon> Process<T>(IReconFile file, T t) where T : IRecon
+        private IList<IRecon> Process(IReconFile file, ReconType reconType)
         {
             IList<IRecon> result = new List<IRecon>();
             IExcelDataReader excelReader = null;
@@ -81,9 +82,19 @@ namespace Recon.Excel
                                 if (!string.IsNullOrEmpty(columnIdValue) && !string.IsNullOrEmpty(columnValueString))
                                 {
                                     decimal columnValue = columnValueString.ToDecimal();
-                                    t.Id = columnIdValue;
-                                    t.Amount = columnValue;
-                                    result.Add(t);
+
+                                    IRecon newRecon = null;
+                                    if (reconType == ReconType.From)
+                                    {
+                                        newRecon = new ReconFrom();
+                                    }
+                                    else if (reconType == ReconType.To)
+                                    {
+                                        newRecon = new ReconTo();
+                                    }
+                                    newRecon.Reference = columnIdValue;
+                                    newRecon.Amount = columnValue;
+                                    result.Add(newRecon);
                                 }
                             }
                         }
@@ -91,7 +102,7 @@ namespace Recon.Excel
 
                     excelReader.Close();
                     excelReader.Dispose();
-                    Console.WriteLine("File {0} Read Complete", file.FileInfo.FullName);
+                    Console.WriteLine("File {0} Read Complete | ", file.FileInfo.FullName, reconType);
                 }
             }
             return result;

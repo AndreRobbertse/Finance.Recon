@@ -12,6 +12,7 @@ namespace Recon.Core.Contexts
     public class ReconContext : DbContext
     {
         public static int RequiredDatabaseVersion = 1;
+        private static string ModelGeneratedSQL = string.Empty;
 
         public DbSet<Model.ReconFrom> ReconFroms { get; set; }
         public DbSet<Model.ReconTo> ReconTos { get; set; }
@@ -29,23 +30,18 @@ namespace Recon.Core.Contexts
 
             var model = modelBuilder.Build(Database.Connection);
             ISqlGenerator sqlGenerator = new SqliteSqlGenerator();
-            string sql = sqlGenerator.Generate(model.StoreModel);
-            Database.CreateIfNotExists();
+            ModelGeneratedSQL = sqlGenerator.Generate(model.StoreModel);
+
+            var sqliteConnectionInitializer = new SqliteCreateDatabaseIfNotExists<DbContext>(modelBuilder);
+            Database.SetInitializer(sqliteConnectionInitializer);
         }
 
         public void Initialize(IList<IRecon> fromRecons, IList<IRecon> toRecons)
         {
             using (ReconContext context = new ReconContext())
             {
-                DatabaseContextSeeder.Seed(context, fromRecons, toRecons);
-
                 int currentVersion = 0;
 
-                var versions = context.SchemaInfoes.ToList();
-                if (versions.Count > 0)
-                {
-                    currentVersion = context.SchemaInfoes.Max(x => x.Version);
-                }
                 ContextHelper contextHelper = new ContextHelper();
                 while (currentVersion < RequiredDatabaseVersion)
                 {
@@ -53,11 +49,19 @@ namespace Recon.Core.Contexts
                     foreach (string migration in contextHelper.Migrations[currentVersion])
                     {
                         context.Database.ExecuteSqlCommand(migration);
-
                     }
+
+                    var versions = context.SchemaInfoes.ToList();
+                    if (versions.Count > 0)
+                    {
+                        currentVersion = context.SchemaInfoes.Max(x => x.Version);
+                    }
+
                     context.SchemaInfoes.Add(new SchemaInfo() { Version = currentVersion });
                     context.SaveChanges();
                 }
+
+                DatabaseContextSeeder.Seed(context, fromRecons, toRecons);
             }
         }
     }

@@ -55,6 +55,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Recon.Core\Recon.Core.csproj">
+      <Project>{FA18B445-C603-4427-8E16-120F50C5CB31}</Project>
+      <Name>Recon.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Recon.File\Recon.File.csproj">
       <Project>{D6E5D0DD-F790-4B53-8659-1E5ACC7BAC8B}</Project>
       <Name>Recon.File</Name>

@@ -4,4 +4,9 @@
     {
         public static readonly string DatabaseName = "Recons.db";
     }
+
+    public enum ReconType
+    {
+        From, To
+    }
 }
