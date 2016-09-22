@@ -12,7 +12,6 @@ namespace Recon.Core.Contexts
     public class ReconContext : DbContext
     {
         public static int RequiredDatabaseVersion = 1;
-        private static string ModelGeneratedSQL = string.Empty;
 
         public DbSet<Model.ReconFrom> ReconFroms { get; set; }
         public DbSet<Model.ReconTo> ReconTos { get; set; }
@@ -30,7 +29,7 @@ namespace Recon.Core.Contexts
 
             var model = modelBuilder.Build(Database.Connection);
             ISqlGenerator sqlGenerator = new SqliteSqlGenerator();
-            ModelGeneratedSQL = sqlGenerator.Generate(model.StoreModel);
+            var modelGeneratedSQL = sqlGenerator.Generate(model.StoreModel);
 
             var sqliteConnectionInitializer = new SqliteCreateDatabaseIfNotExists<DbContext>(modelBuilder);
             Database.SetInitializer(sqliteConnectionInitializer);
