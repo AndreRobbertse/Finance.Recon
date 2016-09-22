@@ -19,34 +19,26 @@ namespace Recon.Core.Contexts
 
         public ReconContext()
         {
-            //Configuration.ProxyCreationEnabled = true;
-            //Configuration.LazyLoadingEnabled = true;
+            Configuration.ProxyCreationEnabled = true;
+            Configuration.LazyLoadingEnabled = true;
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
-            //var sqliteConnectionInitializer = new SqliteCreateDatabaseIfNotExists<ReconContext>(modelBuilder);
-            //Database.SetInitializer(sqliteConnectionInitializer);
-
-            ReconContextInitializer initializer = new ReconContextInitializer(modelBuilder);
-            //initializer.SetData();
-            Database.SetInitializer(initializer);
-
             var model = modelBuilder.Build(Database.Connection);
             ISqlGenerator sqlGenerator = new SqliteSqlGenerator();
             string sql = sqlGenerator.Generate(model.StoreModel);
             Database.CreateIfNotExists();
-
-            Database.SetInitializer(new ReconContextInitializer(modelBuilder));
-
         }
 
-        public void Initialize()
+        public void Initialize(IList<IRecon> fromRecons, IList<IRecon> toRecons)
         {
             using (ReconContext context = new ReconContext())
             {
+                DatabaseContextSeeder.Seed(context, fromRecons, toRecons);
+
                 int currentVersion = 0;
 
                 var versions = context.SchemaInfoes.ToList();
@@ -67,14 +59,6 @@ namespace Recon.Core.Contexts
                     context.SaveChanges();
                 }
             }
-        }
-
-        public void Init(IEnumerable<IRecon> fromRecons, IList<IRecon> toRecons)
-        {
-            //using (ReconContext context = new ReconContext())
-            //{
-            //    context.ReconFroms.AddRange(fromRecons);
-            //}
         }
     }
 }

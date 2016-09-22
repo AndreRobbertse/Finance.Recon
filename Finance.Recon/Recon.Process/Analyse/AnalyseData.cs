@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Recon.Core.Repository;
 
 namespace Recon.Process.Analyse
@@ -18,6 +19,8 @@ namespace Recon.Process.Analyse
 
             FromRecons = _reconFromRepository.Get();
             ToRecons = _reconToRepository.Get();
+
+            Console.WriteLine("Start Analyse | From:{0} & To:{1}", FromRecons.Count, ToRecons.Count);
         }
 
     }

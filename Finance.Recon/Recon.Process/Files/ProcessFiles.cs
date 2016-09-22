@@ -1,9 +1,5 @@
-﻿using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Recon.Core;
-using Recon.Core.Contexts;
-using Recon.Core.Initializer;
 using Recon.Excel;
 using Recon.File;
 using Recon.Interface;
@@ -25,14 +21,7 @@ namespace Recon.Process.Files
             Excel.Reader excelReader = new Reader(getReconFile(ReconType.From), getReconFile(ReconType.To));
 
             // Start DB
-            var setup = new Setup();
-            setup.InitData(excelReader.FromRecon.AsEnumerable(), excelReader.ToRecon.AsEnumerable());
-            //DatabaseContextSeeder.Seed(ReconContext, excelReader.FromRecon, excelReader.ToRecon);
-            // Initilialize Data > Create DbSets from import files
-            //Database.SetInitializer(new ReconDropCreateDatabaseAlways(excelReader.FromRecon, excelReader.ToRecon));
-            //var initilizer = new ReconContextInitializer();
-            //initilizer.SetData(excelReader.FromRecon, excelReader.ToRecon);
-            //Database.SetInitializer(initilizer);
+            new Setup(excelReader.FromRecon, excelReader.ToRecon);
 
             // Compare Recons
             var analyse = new AnalyseData();

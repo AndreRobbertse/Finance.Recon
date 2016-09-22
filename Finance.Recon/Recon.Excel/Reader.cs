@@ -89,9 +89,9 @@ namespace Recon.Excel
                         }
                     }
 
-                    //Free resources (IExcelDataReader is IDisposable)
                     excelReader.Close();
-                    Console.WriteLine("File Read Complete");
+                    excelReader.Dispose();
+                    Console.WriteLine("File {0} Read Complete", file.FileInfo.FullName);
                 }
             }
             return result;
