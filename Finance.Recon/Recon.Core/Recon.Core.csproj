@@ -65,7 +65,6 @@
     <Compile Include="Factory\SQLiteConnectionFactory .cs" />
     <Compile Include="Initializer\ContextHelper.cs" />
     <Compile Include="Initializer\DatabaseContextSeeder.cs" />
-    <Compile Include="Initializer\ReconContextInitializer.cs" />
     <Compile Include="Lookup.cs" />
     <Compile Include="Repository\ReconFromRepository.cs" />
     <Compile Include="Repository\ReconToRepository.cs" />
