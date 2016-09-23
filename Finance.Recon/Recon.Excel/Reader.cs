@@ -102,7 +102,7 @@ namespace Recon.Excel
 
                     excelReader.Close();
                     excelReader.Dispose();
-                    Console.WriteLine("File {0} read complete | {1}", reconType, file.FileInfo.FullName);
+                    Console.WriteLine("File {0} read complete", file.FileInfo.FullName);
                 }
             }
             return result;

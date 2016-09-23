@@ -16,8 +16,7 @@ namespace Recon.Core.Initializer
         public static void Seed(ReconContext context, IList<IRecon> fromData, IList<IRecon> toData)
         {
             var start = DateTime.Now;
-            Console.WriteLine("Saving {0} from recons", fromData.Count);
-            Console.WriteLine("Saving {0} to recons", toData.Count);
+            Console.WriteLine("Saving {0} records", fromData.Count + toData.Count);
             var step = ReconType.From;
 
             int iFrom = 0;

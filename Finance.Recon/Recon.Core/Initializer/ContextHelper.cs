@@ -18,8 +18,8 @@ namespace Recon.Core.Initializer
         {
             IList<string> steps = new List<string>();
 
-            steps.Add("CREATE TABLE \"ReconFrom\" ([Id] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, [Reference] nvarchar, [Amount] decimal NOT NULL);");
-            steps.Add("CREATE TABLE \"ReconTo\" ([Id] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, [Reference] nvarchar, [Amount] decimal NOT NULL);");
+            steps.Add("CREATE TABLE \"ReconFrom\" ([Id] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, [Reference] nvarchar, [Amount] decimal);");
+            steps.Add("CREATE TABLE \"ReconTo\" ([Id] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, [Reference] nvarchar, [Amount] decimal);");
             steps.Add("CREATE TABLE \"SchemaInfo\" ([Id] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, [Version] int NOT NULL);");
 
             return steps;
@@ -29,8 +29,8 @@ namespace Recon.Core.Initializer
         {
             IList<string> steps = new List<string>();
 
-            steps.Add("create view MatchToView as select a.Reference, a.Amount, b.Reference, b.Amount, CASE WHEN a.Amount = b.Amount THEN 'Y' ELSE 'N' END[Match], CASE WHEN a.Amount <> b.Amount THEN(a.Amount - b.Amount) ELSE 0 END[Difference] from ReconTo a left outer join ReconFrom b on a.Reference = b.Reference");
-            steps.Add("create view MatchFromView as select a.Reference, a.Amount, b.Reference, b.Amount, CASE WHEN a.Amount = b.Amount THEN 'Y' ELSE 'N' END[Match], CASE WHEN a.Amount <> b.Amount THEN(a.Amount - b.Amount) ELSE 0 END[Difference] from ReconFrom a left outer join ReconTo b on a.Reference = b.Reference");
+            steps.Add("create view MatchToView as select a.Reference [ReferenceFrom], a.Amount [AmountFrom], b.Reference [ReferenceTo], b.Amount [AmountTo], CASE WHEN a.Amount = b.Amount THEN 'Y' ELSE 'N' END [Match], CASE WHEN a.Amount <> b.Amount THEN(a.Amount - b.Amount) ELSE 0 END [Difference] from ReconTo a left outer join ReconFrom b on a.Reference = b.Reference");
+            steps.Add("create view MatchFromView as select a.Reference [ReferenceFrom], a.Amount [AmountFrom], b.Reference [ReferenceTo], b.Amount [AmountTo], CASE WHEN a.Amount = b.Amount THEN 'Y' ELSE 'N' END [Match], CASE WHEN a.Amount <> b.Amount THEN(a.Amount - b.Amount) ELSE 0 END [Difference] from ReconFrom a left outer join ReconTo b on a.Reference = b.Reference");
 
             return steps;
         }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Web.UI.WebControls;
 using Recon.Core.Contexts;
 using Recon.Interface;
 
@@ -16,7 +18,7 @@ namespace Recon.Core
             {
                 File.Delete(Util.DbPath);
             }
-
+            
             (new ReconContext()).Initialize(fromRecons.ToList(), toRecons.ToList());
         }
 

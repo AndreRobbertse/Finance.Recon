@@ -8,5 +8,8 @@
         public static string ReconFile1Column2ConfigKey = "ReconFile1_Column2";
         public static string ReconFile2Column1ConfigKey = "ReconFile2_Column1";
         public static string ReconFile2Column2ConfigKey = "ReconFile2_Column2";
+
+        public static string ResultFile1ConfigKey = "ResultFile1";
+        public static string ResultFile2ConfigKey = "ResultFile2";
     }
 }

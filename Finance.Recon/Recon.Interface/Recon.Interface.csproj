@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="IReconFile.cs" />
     <Compile Include="IRecon.cs" />
+    <Compile Include="IReconResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

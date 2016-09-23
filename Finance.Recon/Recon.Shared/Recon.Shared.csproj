@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\BusyIndicator.cs" />
+    <Compile Include="Common\ExceptionWriter.cs" />
+    <Compile Include="Common\SpinAnimation.cs" />
     <Compile Include="Config\ConfigHelper.cs" />
     <Compile Include="FinanceExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

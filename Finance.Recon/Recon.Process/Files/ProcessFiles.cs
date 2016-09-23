@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Recon.Core;
 using Recon.Excel;
 using Recon.File;
@@ -14,13 +15,12 @@ namespace Recon.Process.Files
     {
         public ProcessFiles()
         {
-            var taskBusy = new Task(() => new BusyIndicator());
-            taskBusy.Start();
-
             // Read Data from files
-            Excel.Reader excelReader = new Reader(getReconFile(ReconType.From), getReconFile(ReconType.To));
+            var reconFromFile = getReconFile(ReconType.From);
+            var reconToFile = getReconFile(ReconType.To);
+            Excel.Reader excelReader = new Reader(reconFromFile, reconToFile);
 
-            // Start DB
+            // Start DB and Import Data
             new Setup(excelReader.FromRecon, excelReader.ToRecon);
 
             // Compare Recons

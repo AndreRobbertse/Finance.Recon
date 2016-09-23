@@ -16,6 +16,8 @@ namespace Recon.Core.Contexts
         public DbSet<Model.ReconFrom> ReconFroms { get; set; }
         public DbSet<Model.ReconTo> ReconTos { get; set; }
         public DbSet<Model.SchemaInfo> SchemaInfoes { get; set; }
+        public DbSet<Model.MatchToView> MatchToViews { get; set; }
+        public DbSet<Model.MatchFromView> MatchFromViews { get; set; }
 
         public ReconContext()
         {
@@ -27,7 +29,10 @@ namespace Recon.Core.Contexts
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
+            //modelBuilder.Configurations.Add(new MatchToViewContextConfiguration());
+            //modelBuilder.Configurations.Add(new MatchFromViewContextConfiguration());
             var model = modelBuilder.Build(Database.Connection);
+
             ISqlGenerator sqlGenerator = new SqliteSqlGenerator();
             var modelGeneratedSQL = sqlGenerator.Generate(model.StoreModel);
 
