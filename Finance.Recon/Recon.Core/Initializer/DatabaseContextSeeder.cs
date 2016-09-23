@@ -50,6 +50,7 @@ namespace Recon.Core.Initializer
 
                 ProgressBar(totalRows, totalRows);
                 TimeSpan duration = DateTime.Now - start;
+                Console.WriteLine(Environment.NewLine);
                 Console.WriteLine("Seeder Complete (Taken {0} seconds)", duration.TotalSeconds);
             }
             catch (Exception ex)

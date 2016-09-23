@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.IO;
 using System.Linq;
 using Recon.Core.Contexts;
 using Recon.Interface;
@@ -11,11 +12,10 @@ namespace Recon.Core
     {
         public Setup(IEnumerable<IRecon> fromRecons, IEnumerable<IRecon> toRecons)
         {
-            //Console.WriteLine("Check DB: {0}", Util.DbPath);
-            //if (!File.Exists(Util.DbPath))
-            //{
-            //    createDatabase();
-            //}
+            if (File.Exists(Util.DbPath))
+            {
+                File.Delete(Util.DbPath);
+            }
 
             (new ReconContext()).Initialize(fromRecons.ToList(), toRecons.ToList());
         }
@@ -25,5 +25,5 @@ namespace Recon.Core
             Console.WriteLine("Creating DB: {0}", Lookup.DatabaseName);
             SQLiteConnection.CreateFile(Lookup.DatabaseName);
         }
-        }
+    }
 }

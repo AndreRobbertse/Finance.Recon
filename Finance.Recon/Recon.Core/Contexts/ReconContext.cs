@@ -11,7 +11,7 @@ namespace Recon.Core.Contexts
 {
     public class ReconContext : DbContext
     {
-        public static int RequiredDatabaseVersion = 1;
+        public static int RequiredDatabaseVersion = 2;
 
         public DbSet<Model.ReconFrom> ReconFroms { get; set; }
         public DbSet<Model.ReconTo> ReconTos { get; set; }
@@ -31,7 +31,7 @@ namespace Recon.Core.Contexts
             ISqlGenerator sqlGenerator = new SqliteSqlGenerator();
             var modelGeneratedSQL = sqlGenerator.Generate(model.StoreModel);
 
-            var sqliteConnectionInitializer = new SqliteCreateDatabaseIfNotExists<DbContext>(modelBuilder);
+            var sqliteConnectionInitializer = new SqliteDropCreateDatabaseAlways<DbContext>(modelBuilder);
             Database.SetInitializer(sqliteConnectionInitializer);
         }
 
@@ -53,7 +53,7 @@ namespace Recon.Core.Contexts
                     var versions = context.SchemaInfoes.ToList();
                     if (versions.Count > 0)
                     {
-                        currentVersion = context.SchemaInfoes.Max(x => x.Version);
+                        var currentDbVersion = context.SchemaInfoes.Max(x => x.Version);
                     }
 
                     context.SchemaInfoes.Add(new SchemaInfo() { Version = currentVersion });
